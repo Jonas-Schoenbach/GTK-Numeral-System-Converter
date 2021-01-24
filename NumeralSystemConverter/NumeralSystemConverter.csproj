@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AssemblyName>Numeral System Converter</AssemblyName>
+        <RootNamespace>NumeralSystemConverter</RootNamespace>
+        <PackageId />
+        <Title>Numeral System Converter</Title>
+        <Authors>Jonas Schönbach</Authors>
+        <Company />
+        <Product>Numeral System Converter</Product>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="**\*.glade" />
+        <EmbeddedResource Include="**\*.glade">
+            <LogicalName>%(Filename)%(Extension)</LogicalName>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="GtkSharp" Version="3.22.25.*" />
+    </ItemGroup>
+
+</Project>
