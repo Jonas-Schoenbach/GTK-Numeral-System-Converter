@@ -6,17 +6,17 @@ namespace NumeralSystemConverter
     internal static class Program
     {
         [STAThread]
-        public static void Main(string[] args)
+        public static void Main()
         {
             Application.Init();
 
-            var app = new Application("org.Converter.Converter", GLib.ApplicationFlags.None);
-            app.Register(GLib.Cancellable.Current);
-
-            var win = new MainWindow();
-            app.AddWindow(win);
-
-            win.Show();
+            var numeralSystemConverter = new Application(Constants.App.Id, GLib.ApplicationFlags.None);
+            numeralSystemConverter.Register(GLib.Cancellable.Current);
+            
+            var mainWindow = new MainWindow();
+            numeralSystemConverter.AddWindow(mainWindow);
+            mainWindow.Show();
+            
             Application.Run();
         }
     }

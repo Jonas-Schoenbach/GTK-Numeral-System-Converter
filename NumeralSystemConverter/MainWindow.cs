@@ -1,36 +1,50 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Gtk;
-using UI = Gtk.Builder.ObjectAttribute;
 
 namespace NumeralSystemConverter
 {
 	internal class MainWindow : Window
 	{
-		#region ApplicationElements
-		[UI] private readonly Button btnCalc = null;
-		[UI] private readonly Entry eInput = null;
-		[UI] private readonly Entry eDecimal = null;
-		[UI] private readonly Entry eBinary = null;
-		[UI] private readonly Entry eTernary = null;
-		[UI] private readonly Entry eOctal = null;
-		[UI] private readonly Entry eHex = null;
-		[UI] private readonly RadioButton rbDecimal = null;
-		[UI] private readonly RadioButton rbBinary = null;
-		[UI] private readonly RadioButton rbTernary = null;
-		[UI] private readonly RadioButton rbOctal = null;
-		#endregion
+		[Builder.ObjectAttribute]
+		private readonly Button btnCalc = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly Entry eInput = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly Entry eDecimal = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly Entry eBinary = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly Entry eTernary = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly Entry eOctal = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly Entry eHex = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly RadioButton rbDecimal = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly RadioButton rbBinary = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly RadioButton rbTernary = null;
+		
+		[Builder.ObjectAttribute]
+		private readonly RadioButton rbOctal = null;
 
-		#region Constants
-		private const string ErrorNumberTitle = "Error: Invalid number";
-		private const string ErrorNumberMsg = "Please put in a valid number!";
-		#endregion
+		public MainWindow() : this(new Builder(Constants.WindowResources.MainWindow))
+		{
+			
+		}
 
-		public MainWindow() : this(new Builder("MainWindow.glade")){}
-
-		private MainWindow(Builder builder) : base(builder.GetObject("Converter").Handle)
+		private MainWindow(Builder builder) : base(builder.GetObject(Constants.WindowIds.MainWindow).Handle)
 		{
 			builder.Autoconnect(this);
 			DeleteEvent += Window_DeleteEvent;
@@ -53,12 +67,11 @@ namespace NumeralSystemConverter
 					{
 						input = Convert.ToInt32(eInput.Text);
 						eDecimal.Text = eInput.Text;
-						eBinary.Text = ToBinary(input);
-						eTernary.Text = ToTernary(input);
-						eOctal.Text = ToOctal(input);
-						eHex.Text = ToHexadecimal(input);
+						eBinary.Text = Converter.ToBinary(input);
+						eTernary.Text = Converter.ToTernary(input);
+						eOctal.Text = Converter.ToOctal(input);
+						eHex.Text = Converter.ToHexadecimal(input);
 					}
-
 					else
 					{
 						int inputDecimal;
@@ -67,152 +80,52 @@ namespace NumeralSystemConverter
 							inputDecimal = Convert.ToInt32(eInput.Text, 2);
 							eDecimal.Text = inputDecimal.ToString();
 							eBinary.Text = eInput.Text;
-							eTernary.Text = ToTernary(inputDecimal);
-							eOctal.Text = ToOctal(inputDecimal);
-							eHex.Text = ToHexadecimal(inputDecimal);
+							eTernary.Text = Converter.ToTernary(inputDecimal);
+							eOctal.Text = Converter.ToOctal(inputDecimal);
+							eHex.Text = Converter.ToHexadecimal(inputDecimal);
 						}
 						else if (rbTernary.Active.Equals(true))
 						{
 							input = Convert.ToInt32(eInput.Text);
-							inputDecimal = TernaryToDecimal(input);
+							inputDecimal = Converter.TernaryToDecimal(input);
 							eDecimal.Text = inputDecimal.ToString();
-							eBinary.Text = ToBinary(inputDecimal);
+							eBinary.Text = Converter.ToBinary(inputDecimal);
 							eTernary.Text = eInput.Text;
-							eOctal.Text = ToOctal(inputDecimal);
-							eHex.Text = ToHexadecimal(inputDecimal);
+							eOctal.Text = Converter.ToOctal(inputDecimal);
+							eHex.Text = Converter.ToHexadecimal(inputDecimal);
 						}
 						else if (rbOctal.Active.Equals(true))
 						{
 							inputDecimal = Convert.ToInt32(eInput.Text, 8);
 							eDecimal.Text = inputDecimal.ToString();
-							eBinary.Text = ToBinary(inputDecimal);
-							eTernary.Text = ToTernary(inputDecimal);
+							eBinary.Text = Converter.ToBinary(inputDecimal);
+							eTernary.Text = Converter.ToTernary(inputDecimal);
 							eOctal.Text = eInput.Text;
-							eHex.Text = ToHexadecimal(inputDecimal);
+							eHex.Text = Converter.ToHexadecimal(inputDecimal);
 						}
 						else
 						{
 							var inputHex = eInput.Text;
 							inputDecimal = Convert.ToInt32(inputHex, 16);
 							eDecimal.Text = inputDecimal.ToString();
-							eBinary.Text = ToBinary(inputDecimal);
-							eTernary.Text = ToTernary(inputDecimal);
-							eOctal.Text = ToOctal(inputDecimal);
+							eBinary.Text = Converter.ToBinary(inputDecimal);
+							eTernary.Text = Converter.ToTernary(inputDecimal);
+							eOctal.Text = Converter.ToOctal(inputDecimal);
 							eHex.Text = inputHex.ToUpper();
 						}
 					}
 				}
 				else
 				{
-					Error(ErrorNumberTitle, ErrorNumberMsg);
+					MessageBoxHelper.ErrorMessageBox(Constants.Error.InvalidNumberTitle,
+						Constants.Error.InvalidNumberMessage);
 				}
 			}
 			catch
 			{
-				Error(ErrorNumberTitle, ErrorNumberMsg);
+				MessageBoxHelper.ErrorMessageBox(Constants.Error.InvalidNumberTitle,
+					Constants.Error.InvalidNumberMessage);
 			}
-
-		}
-
-
-		private static void Error(string title, string msg)
-		{
-			var dialog = new Dialog(title, null, DialogFlags.DestroyWithParent | DialogFlags.Modal,
-				ResponseType.Ok);
-			dialog.Resize(250, 100);
-			dialog.AddButton(Stock.Ok, ResponseType.Ok);
-			dialog.ContentArea.Add(new Label(msg));
-			dialog.ShowAll();
-			if (dialog.Run() == (int) ResponseType.Ok)
-			{
-				dialog.Dispose();
-			}
-		}
-
-		private static string ToHexadecimal(int input)
-		{
-			var hexLetters = new Dictionary<int, char>
-			{
-				{10, 'A'},
-				{11, 'B'},
-				{12, 'C'},
-				{13, 'D'},
-				{14, 'E'},
-				{15, 'F'}
-			};
-			
-			var numbers = new List<char>();
-
-			while (input != 0)
-			{
-				var rest = input % 16;
-				input /= 16;
-				if (rest > 9 && rest <= 15)
-				{
-					var output = hexLetters[rest];
-					numbers.Add(output);
-				}
-				else
-				{
-					numbers.Add(rest.ToString()[0]);
-				}
-			}
-			return string.Join(string.Empty, numbers.ToArray().Reverse());
-		}
-
-		private static int TernaryToDecimal(int input)
-		{
-			var inputString = input.ToString();
-			var output = 0;
-			var pot = 1;
-			for (var i = 0; i < inputString.Length; i++)
-			{
-				output += Convert.ToInt32(inputString[inputString.Length - 1 - i].ToString()) * pot;
-				pot *= 3;
-			}
-			return output;
-		}
-
-		private static string ToBinary(int input)
-		{
-			var output = new List<int>();
-
-			while (input != 0)
-			{
-				var rest = input % 2;
-				input /= 2;
-
-				output.Add(rest > 0 ? rest : 0);
-			}
-			return string.Join(string.Empty, output.ToArray().Reverse());
-		}
-
-		private static string ToTernary(int input)
-		{
-			var output = new List<int>();
-
-			while (input != 0)
-			{
-				var rest = input % 3;
-				input /= 3;
-
-				output.Add(rest > 0 ? rest : 0);
-			}
-			return string.Join(string.Empty, output.ToArray().Reverse());
-		}
-
-		private static string ToOctal(int input)
-		{
-			var output = new List<int>();
-
-			while (input != 0)
-			{
-				var rest = input % 8;
-				input /= 8;
-
-				output.Add(rest > 0 ? rest : 0);
-			}
-			return string.Join(string.Empty, output.ToArray().Reverse());
 		}
 	}
 }
