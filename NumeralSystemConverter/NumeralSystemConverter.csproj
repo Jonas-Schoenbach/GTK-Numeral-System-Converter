@@ -1,8 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+        <PublishTrimmed>True</PublishTrimmed>
+        <PublishSingleFile>True</PublishSingleFile>
+        <OutputType>WinExe</OutputType>
         <AssemblyName>Numeral System Converter</AssemblyName>
         <RootNamespace>NumeralSystemConverter</RootNamespace>
         <PackageId />

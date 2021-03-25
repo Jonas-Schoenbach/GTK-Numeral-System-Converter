@@ -44,13 +44,11 @@ namespace NumeralSystemConverter
 		
 		private void BtnCalc_Clicked(object sender, EventArgs a)
 		{
-			int input;
-			int inputDecimal;
-
 			try
 			{
 				if (!Regex.IsMatch(eInput.Text, @"[^a-fA-F0-9\s]"))
 				{
+					int input;
 					if (rbDecimal.Active.Equals(true))
 					{
 						input = Convert.ToInt32(eInput.Text);
@@ -61,43 +59,47 @@ namespace NumeralSystemConverter
 						eHex.Text = ToHexadecimal(input);
 					}
 
-					else if (rbBinary.Active.Equals(true))
-					{
-					    inputDecimal = Convert.ToInt32(eInput.Text, 2);
-					    eDecimal.Text = inputDecimal.ToString();
-					    eBinary.Text = eInput.Text;
-					    eTernary.Text = ToTernary(inputDecimal);
-					    eOctal.Text = ToOctal(inputDecimal);
-					    eHex.Text = ToHexadecimal(inputDecimal);
-					}
-					else if (rbTernary.Active.Equals(true))
-					{
-					    input = Convert.ToInt32(eInput.Text);
-					    inputDecimal = TernaryToDecimal(input);
-					    eDecimal.Text = inputDecimal.ToString();
-					    eBinary.Text = ToBinary(inputDecimal);
-					    eTernary.Text = eInput.Text;
-					    eOctal.Text = ToOctal(inputDecimal);
-					    eHex.Text = ToHexadecimal(inputDecimal);
-					}
-					else if (rbOctal.Active.Equals(true))
-					{
-					    inputDecimal = Convert.ToInt32(eInput.Text, 8);
-					    eDecimal.Text = inputDecimal.ToString();
-					    eBinary.Text = ToBinary(inputDecimal);
-					    eTernary.Text = ToTernary(inputDecimal);
-					    eOctal.Text = eInput.Text;
-					    eHex.Text = ToHexadecimal(inputDecimal);
-					}
 					else
 					{
-					    var inputHex = eInput.Text;
-					    inputDecimal = Convert.ToInt32(inputHex, 16);
-					    eDecimal.Text = inputDecimal.ToString();
-					    eBinary.Text = ToBinary(inputDecimal);
-					    eTernary.Text = ToTernary(inputDecimal);
-					    eOctal.Text = ToOctal(inputDecimal);
-					    eHex.Text = inputHex.ToUpper();
+						int inputDecimal;
+						if (rbBinary.Active.Equals(true))
+						{
+							inputDecimal = Convert.ToInt32(eInput.Text, 2);
+							eDecimal.Text = inputDecimal.ToString();
+							eBinary.Text = eInput.Text;
+							eTernary.Text = ToTernary(inputDecimal);
+							eOctal.Text = ToOctal(inputDecimal);
+							eHex.Text = ToHexadecimal(inputDecimal);
+						}
+						else if (rbTernary.Active.Equals(true))
+						{
+							input = Convert.ToInt32(eInput.Text);
+							inputDecimal = TernaryToDecimal(input);
+							eDecimal.Text = inputDecimal.ToString();
+							eBinary.Text = ToBinary(inputDecimal);
+							eTernary.Text = eInput.Text;
+							eOctal.Text = ToOctal(inputDecimal);
+							eHex.Text = ToHexadecimal(inputDecimal);
+						}
+						else if (rbOctal.Active.Equals(true))
+						{
+							inputDecimal = Convert.ToInt32(eInput.Text, 8);
+							eDecimal.Text = inputDecimal.ToString();
+							eBinary.Text = ToBinary(inputDecimal);
+							eTernary.Text = ToTernary(inputDecimal);
+							eOctal.Text = eInput.Text;
+							eHex.Text = ToHexadecimal(inputDecimal);
+						}
+						else
+						{
+							var inputHex = eInput.Text;
+							inputDecimal = Convert.ToInt32(inputHex, 16);
+							eDecimal.Text = inputDecimal.ToString();
+							eBinary.Text = ToBinary(inputDecimal);
+							eTernary.Text = ToTernary(inputDecimal);
+							eOctal.Text = ToOctal(inputDecimal);
+							eHex.Text = inputHex.ToUpper();
+						}
 					}
 				}
 				else
@@ -129,32 +131,30 @@ namespace NumeralSystemConverter
 
 		private static string ToHexadecimal(int input)
 		{
-			var hexLetters = new Dictionary<int, string>
+			var hexLetters = new Dictionary<int, char>
 			{
-				{10, "A"},
-				{11, "B"},
-				{12, "C"},
-				{13, "D"},
-				{14, "E"},
-				{15, "F"}
+				{10, 'A'},
+				{11, 'B'},
+				{12, 'C'},
+				{13, 'D'},
+				{14, 'E'},
+				{15, 'F'}
 			};
 			
-			var numbers = new List<string>();
-			var rest = 0;
-			string output;
-			
+			var numbers = new List<char>();
+
 			while (input != 0)
 			{
-				rest = input % 16;
+				var rest = input % 16;
 				input /= 16;
 				if (rest > 9 && rest <= 15)
 				{
-					output = hexLetters[rest];
+					var output = hexLetters[rest];
 					numbers.Add(output);
 				}
 				else
 				{
-					numbers.Add(rest.ToString());
+					numbers.Add(rest.ToString()[0]);
 				}
 			}
 			return string.Join(string.Empty, numbers.ToArray().Reverse());
@@ -176,11 +176,10 @@ namespace NumeralSystemConverter
 		private static string ToBinary(int input)
 		{
 			var output = new List<int>();
-			var rest = 0;
 
 			while (input != 0)
 			{
-				rest = input % 2;
+				var rest = input % 2;
 				input /= 2;
 
 				output.Add(rest > 0 ? rest : 0);
@@ -191,11 +190,10 @@ namespace NumeralSystemConverter
 		private static string ToTernary(int input)
 		{
 			var output = new List<int>();
-			var rest = 0;
 
 			while (input != 0)
 			{
-				rest = input % 3;
+				var rest = input % 3;
 				input /= 3;
 
 				output.Add(rest > 0 ? rest : 0);
@@ -206,11 +204,10 @@ namespace NumeralSystemConverter
 		private static string ToOctal(int input)
 		{
 			var output = new List<int>();
-			var rest = 0;
 
 			while (input != 0)
 			{
-				rest = input % 8;
+				var rest = input % 8;
 				input /= 8;
 
 				output.Add(rest > 0 ? rest : 0);
