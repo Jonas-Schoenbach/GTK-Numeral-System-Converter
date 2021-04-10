@@ -5,7 +5,7 @@
         <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
         <PublishTrimmed>True</PublishTrimmed>
         <PublishSingleFile>True</PublishSingleFile>
-        <AssemblyName>Numeral System Converter</AssemblyName>
+        <AssemblyName>Numeral_System_Converter</AssemblyName>
         <RootNamespace>NumeralSystemConverter</RootNamespace>
         <PackageId />
         <Title>Numeral System Converter</Title>
@@ -21,12 +21,19 @@
             <LogicalName>%(Filename)%(Extension)</LogicalName>
         </EmbeddedResource>
 
-        <ContentWithTargetPath Include="gtk-libs\*.dll">
+        <ContentWithTargetPath Include="gtk-libs\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
             <TargetPath>%(Filename)%(Extension)</TargetPath>
         </ContentWithTargetPath>
+        
+        <None Include="theme\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <LogicalName>%(Filename)%(Extension)</LogicalName>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
