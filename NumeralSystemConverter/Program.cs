@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using Gdk;
 using Gtk;
 
@@ -11,9 +12,10 @@ namespace NumeralSystemConverter
         {
             Application.Init();
             
-            //var cssProvider = new CssProvider();
-            //cssProvider.LoadFromPath(Path.Combine("theme", "gtk.css"));
-            //StyleContext.AddProviderForScreen(Screen.Default, cssProvider, 600);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Settings.Default.ThemeName = "win";
+            }
 
             var numeralSystemConverter = new Application(Constants.App.Id, GLib.ApplicationFlags.None);
             numeralSystemConverter.Register(GLib.Cancellable.Current);
@@ -23,10 +25,6 @@ namespace NumeralSystemConverter
             
             mainWindow.ShowAll();
             
-            Console.Clear();
-            Console.WriteLine("Don't mind me...");
-            Console.WriteLine("I'm very stubborn and will exist no matter what!");
-            Console.WriteLine("Consoles matter!");
             Application.Run();
         }
     }

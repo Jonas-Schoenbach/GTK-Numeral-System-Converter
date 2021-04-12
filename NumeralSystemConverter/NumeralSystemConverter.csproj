@@ -15,6 +15,11 @@
         <OutputType>WinExe</OutputType>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugType>None</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+
     <ItemGroup>
         <None Remove="**\*.glade" />
         <EmbeddedResource Include="**\*.glade">
@@ -28,15 +33,26 @@
             <TargetPath>%(Filename)%(Extension)</TargetPath>
         </ContentWithTargetPath>
         
-        <None Include="theme\**">
+        <ContentWithTargetPath Include="themes\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <LogicalName>%(Filename)%(Extension)</LogicalName>
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        </None>
+            <TargetPath>..\share\themes\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+        </ContentWithTargetPath>
+
+        <ContentWithTargetPath Include="lib\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <TargetPath>..\lib\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+        </ContentWithTargetPath>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="GtkSharp" Version="3.22.25.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="themes" />
     </ItemGroup>
 </Project>
