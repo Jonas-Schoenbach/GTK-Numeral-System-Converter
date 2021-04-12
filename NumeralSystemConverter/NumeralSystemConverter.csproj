@@ -26,7 +26,7 @@
             <LogicalName>%(Filename)%(Extension)</LogicalName>
         </EmbeddedResource>
 
-        <ContentWithTargetPath Include="gtk-libs\*">
+        <ContentWithTargetPath Include="gtk\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -47,12 +47,9 @@
             <TargetPath>..\lib\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
         </ContentWithTargetPath>
     </ItemGroup>
-
+    
     <ItemGroup>
         <PackageReference Include="GtkSharp" Version="3.22.25.*" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="themes" />
-    </ItemGroup>
+    
 </Project>
