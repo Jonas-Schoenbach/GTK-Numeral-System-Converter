@@ -1,7 +1,7 @@
 namespace NumeralSystemConverter.Constants
 {
-    public static class WindowIds
-    {
-        internal const string MainWindow = "Converter";
-    }
+	public static class WindowIds
+	{
+		internal const string MainWindow = "Converter";
+	}
 }

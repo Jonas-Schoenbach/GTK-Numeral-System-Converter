@@ -6,38 +6,38 @@ namespace NumeralSystemConverter
 {
 	internal class MainWindow : Window
 	{
-		[Builder.ObjectAttribute]
-		private readonly Button btnCalc = null;
+		[Builder.Object]
+		private readonly Button btnCalc;
 		
-		[Builder.ObjectAttribute]
-		private readonly Entry eInput = null;
+		[Builder.Object]
+		private readonly Entry eInput;
 		
-		[Builder.ObjectAttribute]
-		private readonly Entry eDecimal = null;
+		[Builder.Object]
+		private readonly Entry eDecimal;
 		
-		[Builder.ObjectAttribute]
-		private readonly Entry eBinary = null;
+		[Builder.Object]
+		private readonly Entry eBinary;
 		
-		[Builder.ObjectAttribute]
-		private readonly Entry eTernary = null;
+		[Builder.Object]
+		private readonly Entry eTernary;
 		
-		[Builder.ObjectAttribute]
-		private readonly Entry eOctal = null;
+		[Builder.Object]
+		private readonly Entry eOctal;
 		
-		[Builder.ObjectAttribute]
-		private readonly Entry eHex = null;
+		[Builder.Object]
+		private readonly Entry eHex;
 		
-		[Builder.ObjectAttribute]
-		private readonly RadioButton rbDecimal = null;
+		[Builder.Object]
+		private readonly RadioButton rbDecimal;
 		
-		[Builder.ObjectAttribute]
-		private readonly RadioButton rbBinary = null;
+		[Builder.Object]
+		private readonly RadioButton rbBinary;
 		
-		[Builder.ObjectAttribute]
-		private readonly RadioButton rbTernary = null;
+		[Builder.Object]
+		private readonly RadioButton rbTernary;
 		
-		[Builder.ObjectAttribute]
-		private readonly RadioButton rbOctal = null;
+		[Builder.Object]
+		private readonly RadioButton rbOctal;
 
 		public MainWindow() : this(new Builder(Constants.WindowResources.MainWindow))
 		{
