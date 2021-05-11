@@ -80,8 +80,5 @@
 @define-color wm_bg_focused #ffffff;
 @define-color wm_bg_unfocused #ffffff;
 
-/*# sourceMappingURL=gtk.css.map */
 @import url("gtk-contained.css");
-/*@import url("gtk-widgets-assets.css");*/
-/*@import url("apps/gnome-applications.css");*/
-/*@import url("apps/unity.css");*/
+@import url("gtk-widgets-assets.css");

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <PublishTrimmed>True</PublishTrimmed>
         <PublishSingleFile>True</PublishSingleFile>
         <AssemblyName>Numeral_System_Converter</AssemblyName>
@@ -13,11 +13,21 @@
         <Company />
         <Product>Numeral System Converter</Product>
         <OutputType>WinExe</OutputType>
+        <Platforms>x64</Platforms>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <DebugType>None</DebugType>
         <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='win64'">
+      <DebugType>None</DebugType>
+      <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='win64|x64'">
+      <DefineConstants>TRACE</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>
